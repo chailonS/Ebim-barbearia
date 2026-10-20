@@ -1,388 +1,622 @@
-# Ebim-barbearia
-App de barbearia
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ebim Barbearia - Agendamento</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ebim Barbeiro - Agendamento</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        gold: {
-                            400: '#facc15',
-                            500: '#eab308',
-                            600: '#ca8a04',
-                            700: '#a16207',
-                        },
-                        dark: {
-                            900: '#0f0f11',
-                            800: '#18181b',
-                            700: '#27272a',
-                            600: '#3f3f46',
-                        }
-                    },
-                    fontFamily: {
-                        heading: ['Cinzel', 'serif'],
-                        body: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    
     <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --accent-gold: #d4af37;
+            --accent-gold-hover: #b8962e;
+            --text-light: #f5f5f5;
+            --text-muted: #aaaaaa;
+            --border-color: #333333;
+            --danger: #e74c3c;
+            --success: #2ecc71;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f0f11;
-            color: #f4f4f5;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 15px;
         }
-        .font-heading {
-            font-family: 'Cinzel', serif;
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
         }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
+
+        header {
+            background: linear-gradient(180deg, rgba(30,30,30,1) 0%, rgba(18,18,18,1) 100%);
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-gold);
+            position: relative;
         }
-        ::-webkit-scrollbar-track {
-            background: #18181b;
+
+        .barber-icon {
+            font-size: 38px;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #3f3f46;
-            border-radius: 3px;
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #ca8a04;
+
+        .subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .admin-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .admin-badge:hover {
+            background: var(--accent-gold);
+            color: #000;
+        }
+
+        main {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        label i {
+            color: var(--accent-gold);
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="password"]:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .services-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .service-card {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .service-card:hover {
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+
+        .service-card.selected {
+            border-color: var(--accent-gold);
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        .service-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .service-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-gold);
+            font-size: 16px;
+        }
+
+        .service-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .service-duration {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .service-price {
+            font-weight: 700;
+            color: var(--accent-gold);
+            font-size: 15px;
+        }
+
+        .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .time-slot {
+            padding: 12px 5px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: #fff;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .time-slot:hover:not(.disabled) {
+            border-color: var(--accent-gold);
+        }
+
+        .time-slot.selected {
+            background-color: var(--accent-gold);
+            color: #000;
+            border-color: var(--accent-gold);
+        }
+
+        .time-slot.disabled {
+            opacity: 0.25;
+            cursor: not-allowed;
+            text-decoration: line-through;
+            background-color: rgba(231, 76, 60, 0.1);
+            border-color: rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+        }
+
+        .day-info {
+            font-size: 12px;
+            color: var(--accent-gold);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .closed-notice {
+            background-color: rgba(231, 76, 60, 0.1);
+            border: 1px solid var(--danger);
+            color: #ff6b6b;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            display: none;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent-gold);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 440px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .modal-title {
+            color: var(--accent-gold);
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pass-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .btn-gold {
+            background-color: var(--accent-gold);
+            color: #000;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-gold:hover {
+            background-color: var(--accent-gold-hover);
+        }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 12px;
+            display: none;
+        }
+
+        .appointment-item {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .appointment-info h4 {
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .appointment-info p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .btn-cancel {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .btn-cancel:hover {
+            background-color: var(--danger);
+            color: #fff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 11px;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between antialiased">
+<body>
 
-    <!-- Header Navigation -->
-    <header class="bg-dark-800 border-b border-dark-700 sticky top-0 z-50 shadow-lg">
-        <div class="max-w-md mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <i class="fa-solid fa-scissors text-gold-500 text-xl transform -rotate-45"></i>
-                <span class="font-heading font-bold text-lg tracking-wider text-white">BARBA <span class="text-gold-500">&</span> ESTILO</span>
-            </div>
-            <button onclick="toggleView('barber')" id="toggle-view-btn" class="text-xs bg-dark-700 hover:bg-gold-500 hover:text-black text-gold-400 font-semibold py-1.5 px-3 rounded-lg border border-gold-500/30 transition duration-200 flex items-center gap-1.5">
-                <i class="fa-solid fa-user-gear"></i>
-                <span>Área do Barbeiro</span>
+    <div class="app-container">
+        <header>
+            <button class="admin-badge" id="btnOpenAdmin">
+                <i class="fa-solid fa-lock"></i> Barbeiro
             </button>
-        </div>
-    </header>
+            <div class="barber-icon">
+                <i class="fa-solid fa-scissors"></i>
+            </div>
+            <h1>Ebim Barbeiro</h1>
+            <p class="subtitle">Agendamento Online</p>
+        </header>
 
-    <main class="max-w-md mx-auto w-full px-4 py-6 flex-grow">
-
-        <!-- ALERTA / MENSAGEM -->
-        <div id="toast" class="hidden fixed top-16 left-1/2 transform -translate-x-1/2 z-50 bg-gold-500 text-black px-4 py-2 rounded-lg shadow-xl font-medium text-sm flex items-center gap-2">
-            <i id="toast-icon" class="fa-solid fa-circle-info"></i>
-            <span id="toast-msg">Mensagem</span>
-        </div>
-
-        <!-- ================= VISÃO DO CLIENTE (AGENDAMENTO) ================= -->
-        <section id="client-view" class="space-y-6">
-            
-            <!-- Banner Inicial -->
-            <div class="text-center py-2 border-b border-dark-700">
-                <h1 class="font-heading text-2xl font-bold text-white tracking-wide">Agende seu Horário</h1>
-                <p class="text-xs text-zinc-400 mt-1">Rápido, prático e sem filas. Atendimento exclusivo.</p>
+        <main>
+            <!-- Nome do Cliente -->
+            <div class="form-group">
+                <label for="clientName"><i class="fa-solid fa-user"></i> Seu Nome Completo</label>
+                <input type="text" id="clientName" placeholder="Digite seu nome..." autocomplete="off">
             </div>
 
-            <form id="booking-form" onsubmit="handleBooking(event)" class="space-y-5">
-                
-                <!-- 1. Dados Pessoais -->
-                <div class="bg-dark-800 p-4 rounded-xl border border-dark-700 shadow-md space-y-3">
-                    <h2 class="text-sm font-semibold text-gold-400 uppercase tracking-wider flex items-center gap-2">
-                        <i class="fa-solid fa-user text-xs"></i> 1. Seus Dados
-                    </h2>
-                    <div>
-                        <label class="block text-xs text-zinc-300 mb-1">Nome Completo *</label>
-                        <input type="text" id="client-name" required placeholder="Ex: João Silva" 
-                            class="w-full bg-dark-900 border border-dark-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-500 transition">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-zinc-300 mb-1">Telefone / WhatsApp *</label>
-                        <input type="tel" id="client-phone" required placeholder="(35) 99999-9999" 
-                            class="w-full bg-dark-900 border border-dark-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-500 transition">
-                    </div>
-                </div>
-
-                <!-- 2. Escolha do Serviço -->
-                <div class="bg-dark-800 p-4 rounded-xl border border-dark-700 shadow-md space-y-3">
-                    <h2 class="text-sm font-semibold text-gold-400 uppercase tracking-wider flex items-center gap-2">
-                        <i class="fa-solid fa-cut text-xs"></i> 2. Escolha o Serviço
-                    </h2>
-                    <div class="grid grid-cols-1 gap-2.5">
-                        
-                        <!-- Opção Cabelo -->
-                        <label class="relative flex items-center justify-between p-3 rounded-lg border border-dark-700 bg-dark-900 cursor-pointer hover:border-gold-500/50 transition">
-                            <div class="flex items-center gap-3">
-                                <input type="radio" name="service" value="Cabelo" data-price="35" class="accent-gold-500 text-gold-500" required checked onchange="updateTotal()">
-                                <div>
-                                    <p class="font-medium text-sm text-white">Apenas Cabelo</p>
-                                    <p class="text-xs text-zinc-400">Corte social, degradê ou tesoura</p>
-                                </div>
+            <!-- Seleção do Serviço -->
+            <div class="form-group">
+                <label><i class="fa-solid fa-list-check"></i> Selecione o Serviço</label>
+                <div class="services-grid">
+                    <div class="service-card selected" data-service="Cabelo" data-price="35">
+                        <div class="service-info">
+                            <div class="service-icon"><i class="fa-solid fa-scissors"></i></div>
+                            <div>
+                                <div class="service-name">Cabelo</div>
+                                <div class="service-duration">Atendimento: até 1 hora</div>
                             </div>
-                            <span class="font-bold text-gold-400 text-sm">R$ 35,00</span>
-                        </label>
-
-                        <!-- Opção Barba -->
-                        <label class="relative flex items-center justify-between p-3 rounded-lg border border-dark-700 bg-dark-900 cursor-pointer hover:border-gold-500/50 transition">
-                            <div class="flex items-center gap-3">
-                                <input type="radio" name="service" value="Barba" data-price="30" class="accent-gold-500 text-gold-500" onchange="updateTotal()">
-                                <div>
-                                    <p class="font-medium text-sm text-white">Apenas Barba</p>
-                                    <p class="text-xs text-zinc-400">Modelagem com toalha quente</p>
-                                </div>
-                            </div>
-                            <span class="font-bold text-gold-400 text-sm">R$ 30,00</span>
-                        </label>
-
-                        <!-- Opção Combo -->
-                        <label class="relative flex items-center justify-between p-3 rounded-lg border-2 border-gold-500/40 bg-gold-500/5 cursor-pointer hover:border-gold-500 transition">
-                            <div class="flex items-center gap-3">
-                                <input type="radio" name="service" value="Cabelo + Barba (Combo)" data-price="50" class="accent-gold-500 text-gold-500" onchange="updateTotal()">
-                                <div>
-                                    <div class="flex items-center gap-1.5">
-                                        <p class="font-medium text-sm text-white">Cabelo + Barba</p>
-                                        <span class="bg-gold-500 text-black font-extrabold text-[10px] px-1.5 py-0.5 rounded uppercase">Economize</span>
-                                    </div>
-                                    <p class="text-xs text-zinc-400">Serviço completo VIP</p>
-                                </div>
-                            </div>
-                            <span class="font-bold text-gold-400 text-sm">R$ 50,00</span>
-                        </label>
-
-                    </div>
-                </div>
-
-                <!-- 3. Data e Horário -->
-                <div class="bg-dark-800 p-4 rounded-xl border border-dark-700 shadow-md space-y-3">
-                    <h2 class="text-sm font-semibold text-gold-400 uppercase tracking-wider flex items-center gap-2">
-                        <i class="fa-solid fa-calendar-days text-xs"></i> 3. Data e Horário
-                    </h2>
-                    
-                    <div>
-                        <label class="block text-xs text-zinc-300 mb-1">Escolha o Dia (Segunda a Sexta) *</label>
-                        <input type="date" id="booking-date" required onchange="handleDateChange()" 
-                            class="w-full bg-dark-900 border border-dark-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-500 transition">
-                        <p id="date-warning" class="text-xs text-red-400 mt-1 hidden">Por favor, escolha apenas dias úteis (Segunda a Sexta).</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-zinc-300 mb-2">Horários Disponíveis *</label>
-                        <div id="slots-container" class="grid grid-cols-3 gap-2">
-                            <!-- Horários gerados via JS -->
-                            <p class="text-xs text-zinc-500 col-span-3 text-center py-3">Selecione uma data válida primeiro.</p>
                         </div>
-                        <input type="hidden" id="selected-slot" required>
-                    </div>
-                </div>
-
-                <!-- Resumo e Botão de Envio -->
-                <div class="bg-dark-800 p-4 rounded-xl border border-dark-700 space-y-3">
-                    <div class="flex justify-between items-center text-sm border-b border-dark-700 pb-2">
-                        <span class="text-zinc-400">Duração estimada:</span>
-                        <span class="text-white font-medium">Até 1 hora</span>
-                    </div>
-                    <div class="flex justify-between items-center text-base font-bold">
-                        <span class="text-white">Total a pagar:</span>
-                        <span id="total-price" class="text-gold-400 text-lg">R$ 35,00</span>
+                        <div class="service-price">R$ 35</div>
                     </div>
 
-                    <button type="submit" class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg hover:shadow-green-900/30 transition duration-200 flex items-center justify-center gap-2 text-sm">
-                        <i class="fa-brands fa-whatsapp text-lg"></i>
-                        <span>Confirmar via WhatsApp</span>
-                    </button>
-                    <p class="text-[11px] text-center text-zinc-500">Ao clicar, o WhatsApp será aberto para enviar a confirmação para a barbearia.</p>
-                </div>
-
-            </form>
-        </section>
-
-        <!-- ================= VISÃO DO BARBEIRO (PAINEL DE CONTROLE) ================= -->
-        <section id="barber-view" class="space-y-6 hidden">
-            
-            <div class="flex justify-between items-center border-b border-dark-700 pb-3">
-                <div>
-                    <h1 class="font-heading text-xl font-bold text-white">Painel do Barbeiro</h1>
-                    <p class="text-xs text-zinc-400">Gerencie horários e receba agendamentos</p>
-                </div>
-                <button onclick="toggleView('client')" class="text-xs text-zinc-400 hover:text-white underline">
-                    Voltar ao site
-                </button>
-            </div>
-
-            <!-- Configuração do Telefone -->
-            <div class="bg-dark-800 p-4 rounded-xl border border-dark-700 space-y-3">
-                <h2 class="text-sm font-semibold text-gold-400 flex items-center gap-2">
-                    <i class="fa-solid fa-gear"></i> Configuração de Recebimento
-                </h2>
-                <div>
-                    <label class="block text-xs text-zinc-300 mb-1">Seu Número de WhatsApp (com DDD)</label>
-                    <div class="flex gap-2">
-                        <input type="tel" id="barber-phone-config" placeholder="5535974001097" 
-                            class="flex-1 bg-dark-900 border border-dark-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-500">
-                        <button onclick="saveBarberPhone()" class="bg-gold-500 hover:bg-gold-600 text-black font-bold px-4 py-2 rounded-lg text-xs transition">
-                            Salvar
-                        </button>
+                    <div class="service-card" data-service="Barba" data-price="30">
+                        <div class="service-info">
+                            <div class="service-icon"><i class="fa-solid fa-user-ninja"></i></div>
+                            <div>
+                                <div class="service-name">Barba</div>
+                                <div class="service-duration">Atendimento: até 1 hora</div>
+                            </div>
+                        </div>
+                        <div class="service-price">R$ 30</div>
                     </div>
-                    <p class="text-[11px] text-zinc-500 mt-1">Formato: 55 + DDD + Número (Apenas números).</p>
+
+                    <div class="service-card" data-service="Cabelo + Barba" data-price="50">
+                        <div class="service-info">
+                            <div class="service-icon"><i class="fa-solid fa-crown"></i></div>
+                            <div>
+                                <div class="service-name">Combo Cabelo + Barba</div>
+                                <div class="service-duration">Atendimento: até 1 hora</div>
+                            </div>
+                        </div>
+                        <div class="service-price">R$ 50</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Lista de Agendamentos -->
-            <div class="bg-dark-800 p-4 rounded-xl border border-dark-700 space-y-3">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-sm font-semibold text-gold-400 flex items-center gap-2">
-                        <i class="fa-solid fa-list-check"></i> Horários Agendados
-                    </h2>
-                    <button onclick="clearAllAppointments()" class="text-xs text-red-400 hover:text-red-300">
-                        Limpar Todos
-                    </button>
-                </div>
-
-                <div id="appointments-list" class="space-y-2 mt-2">
-                    <!-- Agendamentos injetados via JS -->
-                </div>
+            <!-- Seleção de Data -->
+            <div class="form-group">
+                <label for="appointmentDate"><i class="fa-solid fa-calendar-days"></i> Escolha o Dia</label>
+                <input type="date" id="appointmentDate">
+                <div id="dayInfo" class="day-info"></div>
             </div>
 
-        </section>
+            <!-- Seleção de Horários -->
+            <div class="form-group">
+                <label><i class="fa-solid fa-clock"></i> Escolha o Horário</label>
+                <div class="closed-notice" id="closedNotice">
+                    <i class="fa-solid fa-store-slash"></i> Barbearia fechada aos domingos.
+                </div>
+                <div class="slots-grid" id="slotsGrid"></div>
+            </div>
 
-    </main>
+            <!-- Botão Enviar WhatsApp -->
+            <button class="btn-submit" id="btnSubmit">
+                <i class="fa-brands fa-whatsapp"></i> Confirmar via WhatsApp
+            </button>
+        </main>
 
-    <!-- Footer -->
-    <footer class="bg-dark-800 border-t border-dark-700 py-4 text-center text-xs text-zinc-500">
-        <p>© <span id="year"></span> Barba & Estilo - Sistema de Agendamentos</p>
-    </footer>
+        <footer>
+            Ebim Barbeiro &copy; Todos os direitos reservados.
+        </footer>
+    </div>
 
-    <!-- SCRIPT DA APLICAÇÃO -->
+    <!-- Modal Autenticação Barbeiro -->
+    <div class="modal" id="modalAuth">
+        <div class="modal-content">
+            <button class="close-modal" id="closeAuthModal">&times;</button>
+            <div class="modal-title">
+                <i class="fa-solid fa-shield-halved"></i> ÁREA DO BARBEIRO
+            </div>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">
+                Digite a senha de administrador para gerenciar:
+            </p>
+            <div class="pass-container">
+                <input type="password" id="inputPassword" placeholder="Senha (ex: 0070)" maxlength="8">
+                <div class="error-msg" id="authError">Senha incorreta. Tente novamente!</div>
+                <button class="btn-gold" id="btnVerifyPass">Entrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Painel do Barbeiro -->
+    <div class="modal" id="modalAdmin">
+        <div class="modal-content">
+            <button class="close-modal" id="closeAdminModal">&times;</button>
+            <div class="modal-title">
+                <i class="fa-solid fa-sliders"></i> Painel Ebim Barbeiro
+            </div>
+            <div class="modal-title" style="font-size: 15px;">
+                <i class="fa-solid fa-list"></i> Horários Agendados
+            </div>
+            <div id="appointmentsList" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+
     <script>
-        // Configurações e Estado
-        const AVAILABLE_TIMES = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"];
-        let defaultBarberPhone = "5535974001097"; // Valor padrão editável no painel
-        
+        const BARBER_PHONE = "5535974001097";
+        const ADMIN_PASS = "0070";
+
+        let selectedService = { name: "Cabelo", price: 35 };
+        let selectedTime = null;
+
+        // Horários exatos conforme solicitado
+        const WEEKDAY_SLOTS = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"]; // Seg-Sex
+        const SATURDAY_SLOTS = ["09:00", "10:00", "11:00", "12:00"]; // Sábado
+
         // Elementos DOM
-        const clientView = document.getElementById('client-view');
-        const barberView = document.getElementById('barber-view');
-        const toggleBtn = document.getElementById('toggle-view-btn');
-        const dateInput = document.getElementById('booking-date');
-        const slotsContainer = document.getElementById('slots-container');
-        const selectedSlotInput = document.getElementById('selected-slot');
-        const dateWarning = document.getElementById('date-warning');
-        const barberPhoneConfig = document.getElementById('barber-phone-config');
+        const clientNameInput = document.getElementById('clientName');
+        const appointmentDateInput = document.getElementById('appointmentDate');
+        const dayInfoText = document.getElementById('dayInfo');
+        const slotsGrid = document.getElementById('slotsGrid');
+        const closedNotice = document.getElementById('closedNotice');
+        const btnSubmit = document.getElementById('btnSubmit');
 
-        // Inicialização
-        document.getElementById('year').textContent = new Date().getFullYear();
-        
-        // Configurar data mínima (hoje)
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.min = today;
+        const btnOpenAdmin = document.getElementById('btnOpenAdmin');
+        const modalAuth = document.getElementById('modalAuth');
+        const closeAuthModal = document.getElementById('closeAuthModal');
+        const inputPassword = document.getElementById('inputPassword');
+        const btnVerifyPass = document.getElementById('btnVerifyPass');
+        const authError = document.getElementById('authError');
 
-        // Carregar telefone salvo
-        const savedPhone = localStorage.getItem('barber_whatsapp');
-        if (savedPhone) {
-            defaultBarberPhone = savedPhone;
-        }
-        barberPhoneConfig.value = defaultBarberPhone;
+        const modalAdmin = document.getElementById('modalAdmin');
+        const closeAdminModal = document.getElementById('closeAdminModal');
+        const appointmentsList = document.getElementById('appointmentsList');
 
-        // Função de Alertas (Toast)
-        function showToast(msg, isError = false) {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-msg');
-            const toastIcon = document.getElementById('toast-icon');
+        document.addEventListener('DOMContentLoaded', () => {
+            initDateInput();
+            setupServiceSelection();
+            renderSlots();
+        });
 
-            toastMsg.textContent = msg;
-            if(isError) {
-                toast.classList.remove('bg-gold-500', 'text-black');
-                toast.classList.add('bg-red-600', 'text-white');
-                toastIcon.className = "fa-solid fa-circle-exclamation";
-            } else {
-                toast.classList.remove('bg-red-600', 'text-white');
-                toast.classList.add('bg-gold-500', 'text-black');
-                toastIcon.className = "fa-solid fa-circle-check";
-            }
-
-            toast.classList.remove('hidden');
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 3000);
-        }
-
-        // Alternar entre Telas (Cliente / Barbeiro)
-        function toggleView(view) {
-            if(view === 'barber') {
-                clientView.classList.add('hidden');
-                barberView.classList.remove('hidden');
-                toggleBtn.innerHTML = `<i class="fa-solid fa-calendar"></i><span>Ver Agendamento</span>`;
-                loadBarberAppointments();
-            } else {
-                barberView.classList.add('hidden');
-                clientView.classList.remove('hidden');
-                toggleBtn.innerHTML = `<i class="fa-solid fa-user-gear"></i><span>Área do Barbeiro</span>`;
-            }
-        }
-
-        // Atualizar Valor Total
-        function updateTotal() {
-            const selectedService = document.querySelector('input[name="service"]:checked');
-            if(selectedService) {
-                const price = selectedService.getAttribute('data-price');
-                document.getElementById('total-price').textContent = `R$ ${parseFloat(price).toFixed(2).replace('.', ',')}`;
-            }
-        }
-
-        // Validar e Renderizar Horários ao Alterar a Data
-        function handleDateChange() {
-            const selectedDateVal = dateInput.value;
-            if(!selectedDateVal) return;
-
-            // Criar objeto Data local
-            const parts = selectedDateVal.split('-');
-            const selectedDate = new Date(parts[0], parts[1] - 1, parts[2]);
-            const dayOfWeek = selectedDate.getDay(); // 0 = Domingo, 6 = Sábado
-
-            // Verificar se é fim de semana (0 ou 6)
-            if(dayOfWeek === 0 || dayOfWeek === 6) {
-                dateWarning.classList.remove('hidden');
-                slotsContainer.innerHTML = `<p class="text-xs text-red-400 col-span-3 text-center py-2">Barbearia fechada aos fins de semana. Escolha de segunda a sexta.</p>`;
-                selectedSlotInput.value = '';
-                return;
-            } else {
-                dateWarning.classList.add('hidden');
-            }
-
-            renderTimeSlots(selectedDateVal);
-        }
-
-        // Renderizar Grade de Horários
-        function renderTimeSlots(dateStr) {
-            slotsContainer.innerHTML = '';
-            selectedSlotInput.value = '';
-
-            // Buscar agendamentos salvos no localStorage
-            const appointments = JSON.parse(localStorage.getItem('barber_appointments') || '[]');
+        function initDateInput() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
             
-            // Filtrar horários ocupados para a data selecionada
-            const occupiedTimes = appointments
-                .filter(app => app.date === dateStr)
-                .map(app => app.time);
+            appointmentDateInput.value = `${yyyy}-${mm}-${dd}`;
+            appointmentDateInput.min = `${yyyy}-${mm}-${dd}`;
+            
+            appointmentDateInput.addEventListener('change', () => {
+                selectedTime = null;
+                renderSlots();
+            });
+        }
 
-            AVAILABLE_TIMES.forEach(time => {
-                const isOccupied = occupiedTimes.includes(time);
-                
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = `py-2 px-3 text-xs font-semibold rounded-lg border transition duration-150 flex flex-col items-center justify-center gap-1 ${
-                    isOccupied 
-                    ? 'bg-dark-900 border-dark-700 text-zinc-600 cursor-not-allowed line-through' 
-                    : 'b
+        function setupServiceSelection() {
+            const cards = document.querySelectorAll('.service-card');
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    cards.forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    selectedService = {
+                        name: card.getAttribute('data-service'),
+                        price: card.getAttribute('data-price')
+                    };
+                });
+            });
+        }
+
+        // Busca e grava no banco de memória permanente
+        function getAppointments() {
+            const data = localStorage.getItem('ebim_barber_db_v2');
+            return data ? JSON.parse(data) : [];
+        }
+
+        function saveAppointment(item) {
+            const db = getAppointments();
+            db.push(item);
+            localStorage.setItem('ebim_barber_db_v2', JSON.stringify(db));
+        }
+
+        function deleteAppointment(id) {
+            let db = getAppointments();
+            db = db.filter(a => a.id !== id);
+            localStorage.setItem('ebim_barber_db_v2', JSON.stringify(db));
+            renderAdminAppointment
