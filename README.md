@@ -6,7 +6,7 @@ App de barbearia
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Barba & Estilo - Agendamento</title>
+    <title>Ebim Barbearia - Agendamento</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -230,7 +230,7 @@ App de barbearia
                 <div>
                     <label class="block text-xs text-zinc-300 mb-1">Seu Número de WhatsApp (com DDD)</label>
                     <div class="flex gap-2">
-                        <input type="tel" id="barber-phone-config" placeholder="5535999999999" 
+                        <input type="tel" id="barber-phone-config" placeholder="5535974001097" 
                             class="flex-1 bg-dark-900 border border-dark-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-500">
                         <button onclick="saveBarberPhone()" class="bg-gold-500 hover:bg-gold-600 text-black font-bold px-4 py-2 rounded-lg text-xs transition">
                             Salvar
@@ -269,7 +269,7 @@ App de barbearia
     <script>
         // Configurações e Estado
         const AVAILABLE_TIMES = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"];
-        let defaultBarberPhone = "5535999999999"; // Valor padrão editável no painel
+        let defaultBarberPhone = "5535974001097"; // Valor padrão editável no painel
         
         // Elementos DOM
         const clientView = document.getElementById('client-view');
